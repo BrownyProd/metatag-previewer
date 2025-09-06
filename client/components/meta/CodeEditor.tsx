@@ -26,13 +26,18 @@ function highlightHtml(code: string) {
 
 export function CodeEditor({ value, onChange, className, placeholder, onFileLoad }: CodeEditorProps) {
   const preRef = useRef<HTMLPreElement>(null);
+  const textRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const html = useMemo(() => highlightHtml(value), [value]);
 
-  useEffect(() => {
-    if (preRef.current) preRef.current.scrollTop = preRef.current.scrollHeight;
-  }, [html]);
+  const syncScroll = () => {
+    const pre = preRef.current;
+    const ta = textRef.current;
+    if (!pre || !ta) return;
+    pre.scrollTop = ta.scrollTop;
+    pre.scrollLeft = ta.scrollLeft;
+  };
 
   const openFile = () => fileRef.current?.click();
 
@@ -54,15 +59,18 @@ export function CodeEditor({ value, onChange, className, placeholder, onFileLoad
         </div>
       </div>
       <div className="relative">
-        <pre ref={preRef} aria-hidden className="pointer-events-none m-0 max-h-[50vh] min-h-[240px] w-full overflow-auto rounded-b-xl px-4 pb-4 pt-3 text-sm leading-6 text-white/90">
-          <code dangerouslySetInnerHTML={{ __html: html || (placeholder ? highlightHtml(placeholder) : "") }} />
+        <pre ref={preRef} aria-hidden className="pointer-events-none m-0 max-h-[50vh] min-h-[260px] w-full overflow-auto rounded-b-xl px-4 pb-4 pt-3 text-sm leading-6 text-white/90">
+          <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: html || (placeholder ? highlightHtml(placeholder) : "") }} />
         </pre>
         <textarea
+          ref={textRef}
           spellCheck={false}
+          wrap="off"
           value={value}
+          onScroll={syncScroll}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="absolute inset-0 h-full w-full resize-none rounded-b-xl bg-transparent px-4 pb-4 pt-3 text-sm leading-6 text-transparent caret-white outline-none selection:bg-white/20 selection:text-transparent"
+          className="absolute inset-0 h-full w-full resize-none rounded-b-xl bg-transparent px-4 pb-4 pt-3 text-sm leading-6 text-transparent caret-white outline-none selection:bg-white/20 selection:text-transparent whitespace-pre overflow-auto"
         />
       </div>
     </div>
