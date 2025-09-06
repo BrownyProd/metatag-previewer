@@ -59,8 +59,8 @@ export function CodeEditor({ value, onChange, className, placeholder, onFileLoad
         </div>
       </div>
       <div className="relative">
-        <pre ref={preRef} aria-hidden className="pointer-events-none m-0 max-h-[50vh] min-h-[260px] w-full overflow-auto rounded-b-xl px-4 pb-4 pt-3 text-sm leading-6 text-white/90">
-          <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: html || (placeholder ? highlightHtml(placeholder) : "") }} />
+        <pre ref={preRef} aria-hidden className="pointer-events-none m-0 max-h-[50vh] min-h-[260px] w-full overflow-auto rounded-b-xl pl-4 pr-12 pb-4 pt-3 font-mono text-sm leading-6 text-white/90">
+          <code className="inline-block min-w-max whitespace-pre" dangerouslySetInnerHTML={{ __html: html || (placeholder ? highlightHtml(placeholder) : "") }} />
         </pre>
         <textarea
           ref={textRef}
@@ -70,7 +70,7 @@ export function CodeEditor({ value, onChange, className, placeholder, onFileLoad
           onScroll={syncScroll}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="absolute inset-0 h-full w-full resize-none rounded-b-xl bg-transparent px-4 pb-4 pt-3 text-sm leading-6 text-transparent caret-white outline-none selection:bg-white/20 selection:text-transparent whitespace-pre overflow-auto"
+          className="absolute inset-0 h-full w-full resize-none rounded-b-xl bg-transparent pl-4 pr-12 pb-4 pt-3 font-mono text-sm leading-6 text-transparent caret-white outline-none selection:bg-white/20 selection:text-transparent whitespace-pre overflow-auto"
         />
       </div>
     </div>
