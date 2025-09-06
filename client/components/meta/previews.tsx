@@ -48,7 +48,7 @@ export function DiscordPreview({ data }: { data: MetaResult }) {
         )}
         <div className="min-w-0">
           <div className="text-base font-semibold">{truncate(title, 80)}</div>
-          <div className="mt-1 line-clamp-3 text-sm text-foreground/70">{desc}</div>
+          <div className="mt-1 text-sm text-foreground/70 overflow-hidden">{desc}</div>
           <div className="mt-2 text-xs text-foreground/60">{domain}</div>
         </div>
       </div>
@@ -70,7 +70,7 @@ export function TwitterPreview({ data }: { data: MetaResult }) {
       )}
       <div className="p-4">
         <div className="text-sm font-semibold">{truncate(title, 100)}</div>
-        <div className="mt-1 line-clamp-2 text-sm text-foreground/70">{desc}</div>
+        <div className="mt-1 text-sm text-foreground/70 overflow-hidden">{desc}</div>
         <div className="mt-2 text-xs text-foreground/60">{domain}</div>
       </div>
     </Panel>
@@ -87,7 +87,7 @@ export function LinkedInPreview({ data }: { data: MetaResult }) {
       <div className="grid grid-cols-3 gap-0">
         <div className="col-span-2 p-4">
           <div className="text-base font-semibold">{truncate(title, 80)}</div>
-          <div className="mt-1 line-clamp-3 text-sm text-foreground/70">{desc}</div>
+          <div className="mt-1 text-sm text-foreground/70 overflow-hidden">{desc}</div>
           <div className="mt-2 text-xs text-foreground/60">{domain}</div>
         </div>
         <div className="col-span-1">
