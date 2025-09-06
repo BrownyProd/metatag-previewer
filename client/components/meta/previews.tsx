@@ -10,15 +10,19 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.005 }}
+      transition={{ duration: 0.3 }}
       className={cn(
         "relative overflow-hidden rounded-xl border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]",
         className,
       )}
     >
-      <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-fuchsia-500/10 via-sky-500/5 to-emerald-500/10 blur-2xl" />
+      <div className="pointer-events-none absolute -inset-1 rounded-xl bg-[conic-gradient(at_top_left,theme(colors.fuchsia.500/.15),theme(colors.sky.500/.08),theme(colors.emerald.500/.12))] blur-2xl [background-size:200%_200%] animate-gradient-x-slow" />
       <div className="relative">{children}</div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -27,9 +31,10 @@ export const FadeIn: React.FC<{
   children: React.ReactNode;
 }> = ({ children, className }) => (
   <motion.div
-    initial={{ opacity: 0, y: 8 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.28, ease: "easeOut" }}
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.35, ease: "easeOut" }}
     className={className}
   >
     {children}
