@@ -241,7 +241,7 @@ export default function Index() {
           </Tabs>
 
           {data && metaList.length > 0 && (
-            <Card className="mt-3 border-white/10 p-3">
+            <Card className="mt-4 border-white/10 p-3">
               <div className="mb-2 text-sm font-medium">Extracted Metadata</div>
               <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {metaList.map((item, i) => (
