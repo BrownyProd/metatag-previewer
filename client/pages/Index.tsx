@@ -203,34 +203,34 @@ export default function Index() {
               <TabsTrigger value="twitter">Twitter</TabsTrigger>
               <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
             </TabsList>
-            <div className="mt-4 h-[340px]">
+            <div className="mt-4 h-[360px] overflow-hidden">
               <AnimatePresence mode="wait">
                 {data && (
                   <>
-                    <TabsContent value="google" className="h-full">
+                    <TabsContent value="google" className="h-full overflow-hidden">
                       <FadeIn>
-                        <div className="h-full overflow-auto">
+                        <div className="h-full overflow-hidden">
                           <GooglePreview data={data} />
                         </div>
                       </FadeIn>
                     </TabsContent>
-                    <TabsContent value="discord" className="h-full">
+                    <TabsContent value="discord" className="h-full overflow-hidden">
                       <FadeIn>
-                        <div className="h-full overflow-auto">
+                        <div className="h-full overflow-hidden">
                           <DiscordPreview data={data} />
                         </div>
                       </FadeIn>
                     </TabsContent>
-                    <TabsContent value="twitter" className="h-full">
+                    <TabsContent value="twitter" className="h-full overflow-hidden">
                       <FadeIn>
-                        <div className="h-full overflow-auto">
+                        <div className="h-full overflow-hidden">
                           <TwitterPreview data={data} />
                         </div>
                       </FadeIn>
                     </TabsContent>
-                    <TabsContent value="linkedin" className="h-full">
+                    <TabsContent value="linkedin" className="h-full overflow-hidden">
                       <FadeIn>
-                        <div className="h-full overflow-auto">
+                        <div className="h-full overflow-hidden">
                           <LinkedInPreview data={data} />
                         </div>
                       </FadeIn>
