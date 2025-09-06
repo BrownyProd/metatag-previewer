@@ -16,7 +16,7 @@ export default function Footer() {
           >
             <div className="text-sm text-foreground/70">
               © {year}{" "}
-              <span className="font-semibold text-foreground">Brown prod</span>.
+              <span className="font-semibold text-foreground">BrownyProd</span>.
               All rights reserved.
             </div>
           </motion.div>
