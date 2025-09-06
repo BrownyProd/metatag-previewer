@@ -13,7 +13,6 @@ export function Panel({
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.005 }}
       transition={{ duration: 0.3 }}
       className={cn(
         "relative overflow-hidden rounded-xl border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]",
