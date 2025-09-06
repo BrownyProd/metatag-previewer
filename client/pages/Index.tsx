@@ -8,6 +8,7 @@ import ThemeToggle from "@/components/meta/ThemeToggle";
 import { parseMetaFromHtml, toJson, toMarkdown, MetaResult } from "@/lib/meta";
 import { AnimatePresence } from "framer-motion";
 import { GooglePreview, DiscordPreview, TwitterPreview, LinkedInPreview, FadeIn } from "@/components/meta/previews";
+import { toast } from "sonner";
 
 const SAMPLE = `<!doctype html>
 <html lang="en">
@@ -41,8 +42,9 @@ export default function Index() {
     }
   }, [html]);
 
-  const copy = async (text: string) => {
+  const copy = async (text: string, label?: string) => {
     await navigator.clipboard.writeText(text);
+    toast.success(label ? `${label} copied to clipboard` : "Copied to clipboard");
   };
 
   const download = (filename: string, content: string, type = "text/plain") => {
@@ -76,7 +78,7 @@ export default function Index() {
             <div className="text-lg font-semibold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">MetaTag Previewer</div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setHtml(SAMPLE)}>Load Sample</Button>
+            <Button variant="outline" size="sm" onClick={() => setHtml(SAMPLE)}>Load Template</Button>
             <ThemeToggle />
           </div>
         </div>
@@ -92,13 +94,13 @@ export default function Index() {
             className=""
           />
           <div className="mt-3 flex flex-wrap gap-2">
-            <Button size="sm" onClick={() => copy(html)}>Copy HTML</Button>
+            <Button size="sm" onClick={() => copy(html, "HTML")}>Copy HTML</Button>
             {data && (
               <>
-                <Button size="sm" variant="outline" onClick={() => copy(toJson(data))}>Copy JSON</Button>
-                <Button size="sm" variant="outline" onClick={() => copy(toMarkdown(data))}>Copy Markdown</Button>
-                <Button size="sm" variant="ghost" onClick={() => download("metatag-report.json", toJson(data), "application/json")}>Export JSON</Button>
-                <Button size="sm" variant="ghost" onClick={() => download("metatag-report.md", toMarkdown(data), "text/markdown")}>Export Markdown</Button>
+                <Button size="sm" variant="outline" onClick={() => copy(toJson(data), "JSON")}>Copy JSON</Button>
+                <Button size="sm" variant="outline" onClick={() => copy(toMarkdown(data), "Markdown")}>Copy Markdown</Button>
+                <Button size="sm" variant="ghost" onClick={() => { download("metatag-report.json", toJson(data), "application/json"); toast.success("Exported JSON"); }}>Export JSON</Button>
+                <Button size="sm" variant="ghost" onClick={() => { download("metatag-report.md", toMarkdown(data), "text/markdown"); toast.success("Exported Markdown"); }}>Export Markdown</Button>
               </>
             )}
           </div>
