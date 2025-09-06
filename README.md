@@ -7,7 +7,7 @@
 - **Twitter (X) Cards**  
 - **LinkedIn shares**  
 
-🚀 **Live demo**: [metatag-previewer.vercel.app](https://metatag-previewer.vercel.app)  
+🚀 **Live demo**: [metatag-previewer.vercel.app](https://meta.brownyprod.xyz)  
 
 **Tech stack:** React + Vite · Tailwind CSS · Framer Motion · Radix UI  
 
