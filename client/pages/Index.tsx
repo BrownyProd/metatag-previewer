@@ -96,7 +96,6 @@ export default function Index() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-fuchsia-500 to-sky-500 shadow ring-1 ring-white/10" />
             <div className="text-lg font-semibold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
               MetaTag Previewer
             </div>
