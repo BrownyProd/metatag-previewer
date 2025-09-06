@@ -14,7 +14,6 @@ export default function Footer() {
             transition={{ duration: 0.4 }}
             className="flex items-center gap-3"
           >
-            <div className="h-6 w-6 rounded-md bg-gradient-to-br from-fuchsia-500 to-sky-500 animate-float" />
             <div className="text-sm text-foreground/70">
               © {year}{" "}
               <span className="font-semibold text-foreground">Brown prod</span>.
