@@ -5,7 +5,7 @@ import path from "path";
 // Static SPA config
 export default defineConfig({
   plugins: [react()],
-  base: "/ui.metatag-viewer.com/", // 👈 must start and end with /
+  // base: "/ui.metatag-viewer.com/", // 👈 must start and end with /
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client"),
