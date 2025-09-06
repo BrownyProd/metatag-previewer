@@ -1,62 +1,171 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { CodeEditor } from "@/components/meta/CodeEditor";
+import ThemeToggle from "@/components/meta/ThemeToggle";
+import { parseMetaFromHtml, toJson, toMarkdown, MetaResult } from "@/lib/meta";
+import { AnimatePresence } from "framer-motion";
+import { GooglePreview, DiscordPreview, TwitterPreview, LinkedInPreview, FadeIn } from "@/components/meta/previews";
+
+const SAMPLE = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MetaTag Previewer — Test Page</title>
+  <meta name="description" content="Preview how your pages appear on Google, Twitter, Discord, and LinkedIn." />
+  <meta name="keywords" content="seo, meta tags, open graph, twitter card" />
+  <link rel="canonical" href="https://metatag-previewer.dev/example" />
+  <meta property="og:title" content="MetaTag Previewer — Test Page" />
+  <meta property="og:description" content="Instantly preview SERP and social embeds from your HTML head." />
+  <meta property="og:url" content="https://metatag-previewer.dev/example" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=1200&q=80" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MetaTag Previewer — Test Page" />
+  <meta name="twitter:description" content="Instant previews for search and social." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=1200&q=80" />
+</head>
+</html>`;
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
+  const [html, setHtml] = useState<string>(SAMPLE);
+  const [data, setData] = useState<MetaResult | null>(null);
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
+  useEffect(() => {
     try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
+      const res = parseMetaFromHtml(html);
+      setData(res);
+    } catch (e) {
+      // ignore parse errors
     }
+  }, [html]);
+
+  const copy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
   };
 
+  const download = (filename: string, content: string, type = "text/plain") => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const metaList = useMemo(() => {
+    if (!data) return [] as { label: string; value: string }[];
+    const list: { label: string; value: string }[] = [];
+    if (data.title) list.push({ label: "title", value: data.title });
+    if (data.description) list.push({ label: "description", value: data.description });
+    if (data.canonicalUrl) list.push({ label: "canonical", value: data.canonicalUrl });
+    if (data.keywords.length) list.push({ label: "keywords", value: data.keywords.join(", ") });
+    Object.entries(data.og).forEach(([k, v]) => list.push({ label: k, value: v }));
+    Object.entries(data.twitter).forEach(([k, v]) => list.push({ label: k, value: v }));
+    return list;
+  }, [data]);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
+    <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_-10%_-10%,rgba(99,102,241,0.16),transparent),radial-gradient(800px_400px_at_120%_10%,rgba(16,185,129,0.14),transparent)]">
+      <header className="sticky top-0 z-10 border-b border-white/10 bg-background/60 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-fuchsia-500 to-sky-500" />
+            <div className="text-lg font-semibold">MetaTag Previewer</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setHtml(SAMPLE)}>Load Sample</Button>
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-2">
+        <section>
+          <CodeEditor
+            value={html}
+            onChange={setHtml}
+            onFileLoad={setHtml}
+            placeholder={SAMPLE}
+            className=""
+          />
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button size="sm" onClick={() => copy(html)}>Copy HTML</Button>
+            {data && (
+              <>
+                <Button size="sm" variant="outline" onClick={() => copy(toJson(data))}>Copy JSON</Button>
+                <Button size="sm" variant="outline" onClick={() => copy(toMarkdown(data))}>Copy Markdown</Button>
+                <Button size="sm" variant="ghost" onClick={() => download("metatag-report.json", toJson(data), "application/json")}>Export JSON</Button>
+                <Button size="sm" variant="ghost" onClick={() => download("metatag-report.md", toMarkdown(data), "text/markdown")}>Export Markdown</Button>
+              </>
+            )}
+          </div>
+
+          {data && data.warnings.length > 0 && (
+            <Card className="mt-4 border-white/10 bg-amber-500/10 p-3">
+              <div className="mb-2 text-sm font-medium">Warnings</div>
+              <div className="flex flex-wrap gap-2">
+                {data.warnings.map((w, i) => (
+                  <Badge key={i} variant="secondary" className="bg-amber-500/20 text-amber-600 dark:text-amber-300">{w}</Badge>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          {data && metaList.length > 0 && (
+            <Card className="mt-4 border-white/10 p-3">
+              <div className="mb-2 text-sm font-medium">Extracted Metadata</div>
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                {metaList.map((item, i) => (
+                  <div key={i} className="flex items-start justify-between gap-4 rounded-lg border border-white/10 bg-white/5 p-2 text-sm">
+                    <div className="truncate font-mono text-foreground/70">{item.label}</div>
+                    <div className="max-w-[60%] truncate text-right">{item.value}</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
+        </section>
+
+        <section>
+          <Tabs defaultValue="google" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="google">Google</TabsTrigger>
+              <TabsTrigger value="discord">Discord</TabsTrigger>
+              <TabsTrigger value="twitter">Twitter</TabsTrigger>
+              <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
+            </TabsList>
+            <AnimatePresence mode="wait">
+              {data && (
+                <>
+                  <TabsContent value="google" className="mt-4">
+                    <FadeIn>
+                      <GooglePreview data={data} />
+                    </FadeIn>
+                  </TabsContent>
+                  <TabsContent value="discord" className="mt-4">
+                    <FadeIn>
+                      <DiscordPreview data={data} />
+                    </FadeIn>
+                  </TabsContent>
+                  <TabsContent value="twitter" className="mt-4">
+                    <FadeIn>
+                      <TwitterPreview data={data} />
+                    </FadeIn>
+                  </TabsContent>
+                  <TabsContent value="linkedin" className="mt-4">
+                    <FadeIn>
+                      <LinkedInPreview data={data} />
+                    </FadeIn>
+                  </TabsContent>
+                </>
+              )}
+            </AnimatePresence>
+          </Tabs>
+        </section>
+      </main>
     </div>
   );
 }
