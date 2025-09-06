@@ -71,10 +71,10 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_-10%_-10%,rgba(99,102,241,0.16),transparent),radial-gradient(800px_400px_at_120%_10%,rgba(16,185,129,0.14),transparent)]">
-      <header className="sticky top-0 z-10 border-b border-white/10 bg-background/60 backdrop-blur">
+      <motion.header initial={{ y: -12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.35 }} className="sticky top-0 z-10 border-b border-white/10 bg-background/60 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-fuchsia-500 to-sky-500" />
+            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-fuchsia-500 to-sky-500 shadow ring-1 ring-white/10" />
             <div className="text-lg font-semibold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">MetaTag Previewer</div>
           </div>
           <div className="flex items-center gap-2">
@@ -82,7 +82,13 @@ export default function Index() {
             <ThemeToggle />
           </div>
         </div>
-      </header>
+      </motion.header>
+
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -left-24 top-24 h-64 w-64 rounded-full bg-fuchsia-500/10 blur-3xl animate-float" />
+        <div className="absolute -right-24 top-10 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl animate-float" />
+        <div className="absolute left-1/3 bottom-10 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl animate-float" />
+      </div>
 
       <main className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-2">
         <section>
