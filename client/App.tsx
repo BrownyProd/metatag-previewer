@@ -30,4 +30,14 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+const container = document.getElementById("root")!;
+// Prevent creating a new root on HMR re-executions
+// Reuse existing root if present on window
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let root: any = (window as any).__APP_ROOT__;
+if (!root) {
+  root = createRoot(container);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).__APP_ROOT__ = root;
+}
+root.render(<App />);
