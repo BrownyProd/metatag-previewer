@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { CodeEditor } from "@/components/meta/CodeEditor";
 import ThemeToggle from "@/components/meta/ThemeToggle";
 import { parseMetaFromHtml, toJson, toMarkdown, MetaResult } from "@/lib/meta";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { GooglePreview, DiscordPreview, TwitterPreview, LinkedInPreview, FadeIn } from "@/components/meta/previews";
 import { toast } from "sonner";
 
