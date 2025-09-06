@@ -114,8 +114,48 @@ export default function Index() {
             </Card>
           )}
 
+        </section>
+
+        <section className="flex flex-col">
+          <Tabs defaultValue="google" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="google">Google</TabsTrigger>
+              <TabsTrigger value="discord">Discord</TabsTrigger>
+              <TabsTrigger value="twitter">Twitter</TabsTrigger>
+              <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
+            </TabsList>
+            <div className="mt-4 h-[340px]">
+              <AnimatePresence mode="wait">
+                {data && (
+                  <>
+                    <TabsContent value="google" className="h-full">
+                      <FadeIn>
+                        <div className="h-full overflow-auto"><GooglePreview data={data} /></div>
+                      </FadeIn>
+                    </TabsContent>
+                    <TabsContent value="discord" className="h-full">
+                      <FadeIn>
+                        <div className="h-full overflow-auto"><DiscordPreview data={data} /></div>
+                      </FadeIn>
+                    </TabsContent>
+                    <TabsContent value="twitter" className="h-full">
+                      <FadeIn>
+                        <div className="h-full overflow-auto"><TwitterPreview data={data} /></div>
+                      </FadeIn>
+                    </TabsContent>
+                    <TabsContent value="linkedin" className="h-full">
+                      <FadeIn>
+                        <div className="h-full overflow-auto"><LinkedInPreview data={data} /></div>
+                      </FadeIn>
+                    </TabsContent>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+          </Tabs>
+
           {data && metaList.length > 0 && (
-            <Card className="mt-4 border-white/10 p-3">
+            <Card className="mt-6 border-white/10 p-3">
               <div className="mb-2 text-sm font-medium">Extracted Metadata</div>
               <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {metaList.map((item, i) => (
@@ -127,43 +167,6 @@ export default function Index() {
               </div>
             </Card>
           )}
-        </section>
-
-        <section>
-          <Tabs defaultValue="google" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="google">Google</TabsTrigger>
-              <TabsTrigger value="discord">Discord</TabsTrigger>
-              <TabsTrigger value="twitter">Twitter</TabsTrigger>
-              <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
-            </TabsList>
-            <AnimatePresence mode="wait">
-              {data && (
-                <>
-                  <TabsContent value="google" className="mt-4">
-                    <FadeIn>
-                      <GooglePreview data={data} />
-                    </FadeIn>
-                  </TabsContent>
-                  <TabsContent value="discord" className="mt-4">
-                    <FadeIn>
-                      <DiscordPreview data={data} />
-                    </FadeIn>
-                  </TabsContent>
-                  <TabsContent value="twitter" className="mt-4">
-                    <FadeIn>
-                      <TwitterPreview data={data} />
-                    </FadeIn>
-                  </TabsContent>
-                  <TabsContent value="linkedin" className="mt-4">
-                    <FadeIn>
-                      <LinkedInPreview data={data} />
-                    </FadeIn>
-                  </TabsContent>
-                </>
-              )}
-            </AnimatePresence>
-          </Tabs>
         </section>
       </main>
     </div>
