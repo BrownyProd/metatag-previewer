@@ -7,7 +7,13 @@ import { CodeEditor } from "@/components/meta/CodeEditor";
 import ThemeToggle from "@/components/meta/ThemeToggle";
 import { parseMetaFromHtml, toJson, toMarkdown, MetaResult } from "@/lib/meta";
 import { AnimatePresence, motion } from "framer-motion";
-import { GooglePreview, DiscordPreview, TwitterPreview, LinkedInPreview, FadeIn } from "@/components/meta/previews";
+import {
+  GooglePreview,
+  DiscordPreview,
+  TwitterPreview,
+  LinkedInPreview,
+  FadeIn,
+} from "@/components/meta/previews";
 import Footer from "@/components/meta/Footer";
 import { toast } from "sonner";
 
@@ -45,7 +51,9 @@ export default function Index() {
 
   const copy = async (text: string, label?: string) => {
     await navigator.clipboard.writeText(text);
-    toast.success(label ? `${label} copied to clipboard` : "Copied to clipboard");
+    toast.success(
+      label ? `${label} copied to clipboard` : "Copied to clipboard",
+    );
   };
 
   const download = (filename: string, content: string, type = "text/plain") => {
@@ -62,24 +70,40 @@ export default function Index() {
     if (!data) return [] as { label: string; value: string }[];
     const list: { label: string; value: string }[] = [];
     if (data.title) list.push({ label: "title", value: data.title });
-    if (data.description) list.push({ label: "description", value: data.description });
-    if (data.canonicalUrl) list.push({ label: "canonical", value: data.canonicalUrl });
-    if (data.keywords.length) list.push({ label: "keywords", value: data.keywords.join(", ") });
-    Object.entries(data.og).forEach(([k, v]) => list.push({ label: k, value: v }));
-    Object.entries(data.twitter).forEach(([k, v]) => list.push({ label: k, value: v }));
+    if (data.description)
+      list.push({ label: "description", value: data.description });
+    if (data.canonicalUrl)
+      list.push({ label: "canonical", value: data.canonicalUrl });
+    if (data.keywords.length)
+      list.push({ label: "keywords", value: data.keywords.join(", ") });
+    Object.entries(data.og).forEach(([k, v]) =>
+      list.push({ label: k, value: v }),
+    );
+    Object.entries(data.twitter).forEach(([k, v]) =>
+      list.push({ label: k, value: v }),
+    );
     return list;
   }, [data]);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_-10%_-10%,rgba(99,102,241,0.16),transparent),radial-gradient(800px_400px_at_120%_10%,rgba(16,185,129,0.14),transparent)]">
-      <motion.header initial={{ y: -12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.35 }} className="sticky top-0 z-10 border-b border-white/10 bg-background/60 backdrop-blur">
+      <motion.header
+        initial={{ y: -12, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.35 }}
+        className="sticky top-0 z-10 border-b border-white/10 bg-background/60 backdrop-blur"
+      >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-md bg-gradient-to-br from-fuchsia-500 to-sky-500 shadow ring-1 ring-white/10" />
-            <div className="text-lg font-semibold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">MetaTag Previewer</div>
+            <div className="text-lg font-semibold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+              MetaTag Previewer
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setHtml(SAMPLE)}>Load Template</Button>
+            <Button variant="outline" size="sm" onClick={() => setHtml(SAMPLE)}>
+              Load Template
+            </Button>
             <ThemeToggle />
           </div>
         </div>
@@ -101,13 +125,53 @@ export default function Index() {
             className=""
           />
           <div className="mt-3 flex flex-wrap gap-2">
-            <Button size="sm" onClick={() => copy(html, "HTML")}>Copy HTML</Button>
+            <Button size="sm" onClick={() => copy(html, "HTML")}>
+              Copy HTML
+            </Button>
             {data && (
               <>
-                <Button size="sm" variant="outline" onClick={() => copy(toJson(data), "JSON")}>Copy JSON</Button>
-                <Button size="sm" variant="outline" onClick={() => copy(toMarkdown(data), "Markdown")}>Copy Markdown</Button>
-                <Button size="sm" variant="ghost" onClick={() => { download("metatag-report.json", toJson(data), "application/json"); toast.success("Exported JSON"); }}>Export JSON</Button>
-                <Button size="sm" variant="ghost" onClick={() => { download("metatag-report.md", toMarkdown(data), "text/markdown"); toast.success("Exported Markdown"); }}>Export Markdown</Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => copy(toJson(data), "JSON")}
+                >
+                  Copy JSON
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => copy(toMarkdown(data), "Markdown")}
+                >
+                  Copy Markdown
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    download(
+                      "metatag-report.json",
+                      toJson(data),
+                      "application/json",
+                    );
+                    toast.success("Exported JSON");
+                  }}
+                >
+                  Export JSON
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    download(
+                      "metatag-report.md",
+                      toMarkdown(data),
+                      "text/markdown",
+                    );
+                    toast.success("Exported Markdown");
+                  }}
+                >
+                  Export Markdown
+                </Button>
               </>
             )}
           </div>
@@ -117,12 +181,17 @@ export default function Index() {
               <div className="mb-2 text-sm font-medium">Warnings</div>
               <div className="flex flex-wrap gap-2">
                 {data.warnings.map((w, i) => (
-                  <Badge key={i} variant="secondary" className="bg-amber-500/20 text-amber-600 dark:text-amber-300">{w}</Badge>
+                  <Badge
+                    key={i}
+                    variant="secondary"
+                    className="bg-amber-500/20 text-amber-600 dark:text-amber-300"
+                  >
+                    {w}
+                  </Badge>
                 ))}
               </div>
             </Card>
           )}
-
         </section>
 
         <section className="flex flex-col">
@@ -139,22 +208,30 @@ export default function Index() {
                   <>
                     <TabsContent value="google" className="h-full">
                       <FadeIn>
-                        <div className="h-full overflow-auto"><GooglePreview data={data} /></div>
+                        <div className="h-full overflow-auto">
+                          <GooglePreview data={data} />
+                        </div>
                       </FadeIn>
                     </TabsContent>
                     <TabsContent value="discord" className="h-full">
                       <FadeIn>
-                        <div className="h-full overflow-auto"><DiscordPreview data={data} /></div>
+                        <div className="h-full overflow-auto">
+                          <DiscordPreview data={data} />
+                        </div>
                       </FadeIn>
                     </TabsContent>
                     <TabsContent value="twitter" className="h-full">
                       <FadeIn>
-                        <div className="h-full overflow-auto"><TwitterPreview data={data} /></div>
+                        <div className="h-full overflow-auto">
+                          <TwitterPreview data={data} />
+                        </div>
                       </FadeIn>
                     </TabsContent>
                     <TabsContent value="linkedin" className="h-full">
                       <FadeIn>
-                        <div className="h-full overflow-auto"><LinkedInPreview data={data} /></div>
+                        <div className="h-full overflow-auto">
+                          <LinkedInPreview data={data} />
+                        </div>
                       </FadeIn>
                     </TabsContent>
                   </>
@@ -168,9 +245,16 @@ export default function Index() {
               <div className="mb-2 text-sm font-medium">Extracted Metadata</div>
               <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {metaList.map((item, i) => (
-                  <div key={i} className="flex items-start justify-between gap-4 rounded-lg border border-white/10 bg-white/5 p-2 text-sm">
-                    <div className="truncate font-mono text-foreground/70">{item.label}</div>
-                    <div className="max-w-[60%] truncate text-right">{item.value}</div>
+                  <div
+                    key={i}
+                    className="flex items-start justify-between gap-4 rounded-lg border border-white/10 bg-white/5 p-2 text-sm"
+                  >
+                    <div className="truncate font-mono text-foreground/70">
+                      {item.label}
+                    </div>
+                    <div className="max-w-[60%] truncate text-right">
+                      {item.value}
+                    </div>
                   </div>
                 ))}
               </div>

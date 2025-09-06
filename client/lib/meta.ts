@@ -28,13 +28,23 @@ export function parseMetaFromHtml(html: string): MetaResult {
   const getMetaByName = (name: string) =>
     head.querySelector(`meta[name="${name}"]`)?.getAttribute("content") || null;
   const getMetaByProp = (prop: string) =>
-    head.querySelector(`meta[property="${prop}"]`)?.getAttribute("content") || null;
+    head.querySelector(`meta[property="${prop}"]`)?.getAttribute("content") ||
+    null;
 
   const title = head.querySelector("title")?.textContent?.trim() || null;
-  const description = getMetaByName("description") || getMetaByProp("og:description");
+  const description =
+    getMetaByName("description") || getMetaByProp("og:description");
   const keywordsRaw = getMetaByName("keywords");
-  const keywords = keywordsRaw ? keywordsRaw.split(",").map((k) => k.trim()).filter(Boolean) : [];
-  const canonicalUrl = head.querySelector('link[rel="canonical"]')?.getAttribute("href") || getMetaByProp("og:url") || null;
+  const keywords = keywordsRaw
+    ? keywordsRaw
+        .split(",")
+        .map((k) => k.trim())
+        .filter(Boolean)
+    : [];
+  const canonicalUrl =
+    head.querySelector('link[rel="canonical"]')?.getAttribute("href") ||
+    getMetaByProp("og:url") ||
+    null;
 
   const og: Record<string, string> = {};
   head.querySelectorAll("meta[property^='og:']").forEach((el) => {
@@ -58,11 +68,23 @@ export function parseMetaFromHtml(html: string): MetaResult {
   if (!description) warnings.push("No description meta tag found");
   if (!canonicalUrl) warnings.push("No canonical URL found");
   if (!og["og:title"]) warnings.push("Missing Open Graph title (og:title)");
-  if (!og["og:description"]) warnings.push("Missing Open Graph description (og:description)");
+  if (!og["og:description"])
+    warnings.push("Missing Open Graph description (og:description)");
   if (!og["og:image"]) warnings.push("Missing Open Graph image (og:image)");
-  if (!twitter["twitter:card"]) warnings.push("Missing Twitter card type (twitter:card)");
+  if (!twitter["twitter:card"])
+    warnings.push("Missing Twitter card type (twitter:card)");
 
-  return { title, description, keywords, canonicalUrl, og, twitter, warnings, image, urlDisplay };
+  return {
+    title,
+    description,
+    keywords,
+    canonicalUrl,
+    og,
+    twitter,
+    warnings,
+    image,
+    urlDisplay,
+  };
 }
 
 export function toJson(result: MetaResult) {
@@ -73,13 +95,18 @@ export function toMarkdown(result: MetaResult) {
   const lines: string[] = [];
   lines.push(`# MetaTag Report`);
   if (result.title) lines.push(`\n**Title:** ${result.title}`);
-  if (result.description) lines.push(`\n**Description:** ${result.description}`);
-  if (result.canonicalUrl) lines.push(`\n**Canonical:** ${result.canonicalUrl}`);
-  if (result.keywords.length) lines.push(`\n**Keywords:** ${result.keywords.join(", ")}`);
+  if (result.description)
+    lines.push(`\n**Description:** ${result.description}`);
+  if (result.canonicalUrl)
+    lines.push(`\n**Canonical:** ${result.canonicalUrl}`);
+  if (result.keywords.length)
+    lines.push(`\n**Keywords:** ${result.keywords.join(", ")}`);
   lines.push("\n## Open Graph");
   Object.entries(result.og).forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
   lines.push("\n## Twitter");
-  Object.entries(result.twitter).forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
+  Object.entries(result.twitter).forEach(([k, v]) =>
+    lines.push(`- ${k}: ${v}`),
+  );
   if (result.warnings.length) {
     lines.push("\n## Warnings");
     result.warnings.forEach((w) => lines.push(`- ${w}`));
