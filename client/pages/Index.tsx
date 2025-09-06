@@ -16,7 +16,11 @@ import {
 } from "@/components/meta/previews";
 import Footer from "@/components/meta/Footer";
 import { toast } from "sonner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const SAMPLE = `<!doctype html>
 <html lang="en">
@@ -206,28 +210,40 @@ export default function Index() {
               <AnimatePresence mode="wait">
                 {data && (
                   <>
-                    <TabsContent value="google" className="h-full overflow-hidden">
+                    <TabsContent
+                      value="google"
+                      className="h-full overflow-hidden"
+                    >
                       <FadeIn>
                         <div className="h-full overflow-hidden">
                           <GooglePreview data={data} />
                         </div>
                       </FadeIn>
                     </TabsContent>
-                    <TabsContent value="discord" className="h-full overflow-hidden">
+                    <TabsContent
+                      value="discord"
+                      className="h-full overflow-hidden"
+                    >
                       <FadeIn>
                         <div className="h-full overflow-hidden">
                           <DiscordPreview data={data} />
                         </div>
                       </FadeIn>
                     </TabsContent>
-                    <TabsContent value="twitter" className="h-full overflow-hidden">
+                    <TabsContent
+                      value="twitter"
+                      className="h-full overflow-hidden"
+                    >
                       <FadeIn>
                         <div className="h-full overflow-hidden">
                           <TwitterPreview data={data} />
                         </div>
                       </FadeIn>
                     </TabsContent>
-                    <TabsContent value="linkedin" className="h-full overflow-hidden">
+                    <TabsContent
+                      value="linkedin"
+                      className="h-full overflow-hidden"
+                    >
                       <FadeIn>
                         <div className="h-full overflow-hidden">
                           <LinkedInPreview data={data} />
