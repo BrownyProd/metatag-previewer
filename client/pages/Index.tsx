@@ -177,6 +177,7 @@ export default function Index() {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
