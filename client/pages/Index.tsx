@@ -16,6 +16,7 @@ import {
 } from "@/components/meta/previews";
 import Footer from "@/components/meta/Footer";
 import { toast } from "sonner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const SAMPLE = `<!doctype html>
 <html lang="en">
