@@ -93,7 +93,7 @@ export function CodeEditor({
         <pre
           ref={preRef}
           aria-hidden
-          className="pointer-events-none m-0 max-h-[50vh] min-h-[260px] w-full overflow-auto rounded-b-xl pl-4 pr-12 pb-4 pt-3 font-mono text-sm leading-6 text-white/90"
+          className="pointer-events-none m-0 max-h-[60vh] min-h-[260px] w-full overflow-auto rounded-b-xl pl-4 pr-12 pb-4 pt-3 font-mono text-sm leading-6 text-white/90"
         >
           <code
             className="inline-block min-w-max whitespace-pre"
