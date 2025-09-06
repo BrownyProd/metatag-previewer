@@ -8,6 +8,7 @@ import ThemeToggle from "@/components/meta/ThemeToggle";
 import { parseMetaFromHtml, toJson, toMarkdown, MetaResult } from "@/lib/meta";
 import { AnimatePresence, motion } from "framer-motion";
 import { GooglePreview, DiscordPreview, TwitterPreview, LinkedInPreview, FadeIn } from "@/components/meta/previews";
+import Footer from "@/components/meta/Footer";
 import { toast } from "sonner";
 
 const SAMPLE = `<!doctype html>
