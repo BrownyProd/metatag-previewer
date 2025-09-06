@@ -246,21 +246,28 @@ export default function Index() {
               <div className="mb-2 text-sm font-medium">Extracted Metadata</div>
               <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {metaList.map((item, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25, delay: i * 0.02 }}
-                    whileHover={{ scale: 1.01 }}
-                    className="flex items-start justify-between gap-4 rounded-lg border border-white/10 bg-white/5 p-2 text-sm"
-                  >
-                    <div className="truncate font-mono text-foreground/70">
-                      {item.label}
-                    </div>
-                    <div className="max-w-[60%] truncate text-right">
-                      {item.value}
-                    </div>
-                  </motion.div>
+                  <Tooltip key={i}>
+                    <TooltipTrigger asChild>
+                      <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25, delay: i * 0.02 }}
+                        className="flex items-start justify-between gap-4 rounded-lg border border-white/10 bg-white/5 p-2 text-sm"
+                      >
+                        <div className="truncate font-mono text-foreground/70">
+                          {item.label}
+                        </div>
+                        <div className="max-w-[60%] truncate text-right">
+                          {item.value}
+                        </div>
+                      </motion.div>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-[90vw] md:max-w-xl break-words">
+                      <div className="font-mono text-xs">
+                        {item.label}: {item.value}
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
                 ))}
               </div>
             </Card>
